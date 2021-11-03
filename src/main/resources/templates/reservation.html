@@ -1,0 +1,18 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+  <title>Reservation System</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<h1>Campsite Reservation System</h1>
+<span style="color:red" th:if="${errorMessage}"  th:text="${errorMessage}">Error</span>
+<form action="#" th:action="@{/reservation}" th:object="${reservation}" method="post">
+  <p>Name: <input type="text" th:field="*{guest}" /></p>
+  <p>Email: <input type="text" th:field="*{email}" /></p>
+  <p>Start Date: <input type="date" th:field="*{checkIn}" /></p>
+  <p>End Date: <input type="date" th:field="*{checkOut}" /></p>
+  <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
+</form>
+</body>
+</html>
