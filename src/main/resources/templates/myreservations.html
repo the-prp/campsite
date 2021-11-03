@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>My Reservations</title>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+</head>
+<body>
+<p>
+<h1>Existing Reservations:</h1>
+</p>
+<style>
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+</style>
+<span style="color:red" th:if="${errorMessage}"  th:text="${errorMessage}">Error</span>
+<div th:if="${ not#lists.isEmpty(reservations)}">
+    <table>
+        <tr>
+            <th>Reservation ID</th>
+            <th>Guest Name</th>
+            <th>Email</th>
+            <th>Check In</th>
+            <th>Check Out</th>
+            <th>New Check In</th>
+            <th>New Check Out</th>
+            <th>Modify</th>
+            <th>Cancel</th>
+        </tr>
+        <tr th:each="reservation : ${reservations}">
+            <form action="#" th:action="@{/reservation/modify/{id}(id=${reservation.id})}" th:object="${reservation}" method="post">
+            <td th:text="${reservation.id}" th:field="${reservation.id}" /></td>
+            <td th:text="${reservation.guest}" th:field="${reservation.guest}" /></td>
+            <td th:text="${reservation.email}" th:field="${reservation.email}" /></td>
+            <td th:text="${reservation.checkIn}" th:field="${reservation.checkIn}" /></td>
+            <td th:text="${reservation.checkOut}" th:field="${reservation.checkOut}" /></td>
+            <td> <input type="date" th:value="${reservation.checkIn}" th:field="${reservation.checkIn}" /> </td>
+            <td> <input type="date" th:value="${reservation.checkOut}" th:field="${reservation.checkOut}" /></td>
+            <td>
+                <input type="submit" value="Modify" />
+            </td>
+             </form>
+            <td>
+                <form action="#" th:action="@{/reservation/cancel/{id}(id=${reservation.id})}" th:object="${reservation}" method="post">
+                    <input type="submit" value="Cancel" />
+                </form>
+            </td>
+        </tr>
+        <table>
+</div>
+</body>
+</html>

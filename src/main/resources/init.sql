@@ -1,0 +1,6 @@
+DROP TABLE IF EXISTS reservations;
+
+CREATE TABLE reservations (
+  id INT AUTO_INCREMENT  PRIMARY KEY,
+  first_name VARCHAR(250) NOT NULL,
+);
