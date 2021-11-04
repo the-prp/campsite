@@ -123,8 +123,8 @@ public class ReservationService {
         }
 
         // check if the range of the check in and out is less than 3 days
-        difference = Math.abs(checkOut.getTime() - checkIn.getTime());
-        long reservationLength = TimeUnit.DAYS.convert(difference, TimeUnit.MILLISECONDS);
+        long range = Math.abs(checkOut.getTime() - checkIn.getTime());
+        long reservationLength = TimeUnit.DAYS.convert(range, TimeUnit.MILLISECONDS);
 
         // booking is longer than 3 days
         if (reservationLength > 3) {

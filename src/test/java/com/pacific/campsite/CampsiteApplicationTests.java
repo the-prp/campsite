@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -60,9 +61,9 @@ class CampsiteApplicationTests {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(checkIn);
 
-		// set check in for two days from now
-		calendar.add(Calendar.DAY_OF_MONTH, 2);
-		validReservation.setCheckIn(checkIn);
+		// set check in for ten days from now
+		calendar.add(Calendar.DAY_OF_MONTH, 10);
+		validReservation.setCheckIn(calendar.getTime());
 
 		// set check out for 2 days after that (valid case)
 		calendar.add(Calendar.DAY_OF_MONTH, 2);
@@ -129,6 +130,29 @@ class CampsiteApplicationTests {
 	}
 
 
+	@Test
+	void check_available_days(){
+		try {
+			service.reserve(validReservation);
+		} catch (ReservationException e) {
+			Fail.fail("Reservation failed.");
+		}
 
+		Set<Integer> availableDays = service.getAvailability();
+
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(validReservation.getCheckIn());
+
+		// check if the days are missing from the list
+		int dayOne = calendar.get(Calendar.DAY_OF_MONTH);
+		calendar.add(Calendar.DAY_OF_MONTH, 1);
+		int dayTwo = calendar.get(Calendar.DAY_OF_MONTH);
+
+		if (availableDays.contains(dayOne) || availableDays.contains(dayTwo)){
+			Fail.fail("Listed available days contains one or more days that are booked");
+		}
+
+
+	}
 
 }
